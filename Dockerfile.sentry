@@ -1,0 +1,23 @@
+FROM docker/compose:debian-1.25.4
+
+RUN apt update
+RUN apt install --yes \
+    git \
+    netcat \
+    curl \
+    net-tools
+
+WORKDIR /app
+
+ENV LATEST_COMMIT_AT_THE_TIME_OF_DOCKERIZATION=1ee602110aa4ecf48014240a46c7e68b662fafa8
+
+RUN git clone -n https://github.com/getsentry/onpremise.git ./
+RUN git checkout ${LATEST_COMMIT_AT_THE_TIME_OF_DOCKERIZATION}
+
+COPY bin/ ./
+
+EXPOSE 9000
+
+ENTRYPOINT ["./entrypoint.sh"]
+
+CMD ["start"]

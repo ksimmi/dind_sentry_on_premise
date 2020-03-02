@@ -1,0 +1,43 @@
+version: '3'
+
+networks:
+  sentry:
+    driver: 'bridge'
+
+services:
+  dind_host:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile.dind
+    container_name: ${DIND_HOST}
+    privileged: true
+    expose:
+      - 2375
+      - 2376
+    ports:
+      - 9100:9000
+    networks:
+      - sentry
+    volumes:
+      - ~/dockerize/dind/dind:/var/lib/docker
+
+  sentry_compose:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile.sentry
+    container_name: ${SENTRY_HOST}
+    links:
+      - ${DIND_HOST}
+    volumes:
+      - ~/dockerize/dind/sentry_data:/usr/src/sentry/sentry-data
+      - ~/dockerize/dind/fact_dir:/fact_dir
+    environment:
+      DOCKER_HOST: tcp://${DIND_HOST}:${DIND_PORT}
+#      SENTRY_IMAGE: "getsentry/sentry:9.1.2"
+    networks:
+        - sentry
+    command: ${COMMAND}
