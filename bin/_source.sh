@@ -2,8 +2,6 @@
 
 command=$1
 
-INSTALATION_FACT_FILE=/fact_dir/installed.fact
-
 waitForDindStart () {
   echo 'awaiting for DIND host'
 
@@ -15,11 +13,7 @@ waitForDindStart () {
   done
 }
 
-isSentryNotInstalled () {
-  [ ! -f "$INSTALATION_FACT_FILE" ]
-}
-
 installSentry () {
   echo 'starting installation of sentry'
-  ./install.sh && touch $INSTALATION_FACT_FILE
+  ./install.sh
 }

@@ -9,7 +9,7 @@ RUN apt install --yes \
 
 WORKDIR /app
 
-ENV LATEST_COMMIT_AT_THE_TIME_OF_DOCKERIZATION=1ee602110aa4ecf48014240a46c7e68b662fafa8
+ENV LATEST_COMMIT_AT_THE_TIME_OF_DOCKERIZATION=2ff2f2ec12e214a741e8df1c395b96f1501c5e7b
 
 RUN git clone -n https://github.com/getsentry/onpremise.git ./
 RUN git checkout ${LATEST_COMMIT_AT_THE_TIME_OF_DOCKERIZATION}

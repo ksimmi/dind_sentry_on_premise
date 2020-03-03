@@ -3,4 +3,6 @@
 source .env
 source ./compose_source.sh
 
-installSentryCompose
+upSentryCompose
+awaitForSentryWeb
+createSentryWebFirstUser
